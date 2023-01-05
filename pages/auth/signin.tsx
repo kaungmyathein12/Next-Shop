@@ -34,7 +34,17 @@ export default function SignIn({ providers }: any) {
           {Object.values(providers).map((provider: any) => (
             <button
               key={provider.name}
-              onClick={() => signIn(provider.id)}
+              onClick={() => {
+                if (provider.name.toLowerCase() === "credentials") {
+                  signIn(provider.id, {
+                    email: userInfo.email,
+                    password: userInfo.password,
+                    redirect: true,
+                  });
+                } else {
+                  signIn(provider.id);
+                }
+              }}
               className={`text-center ${
                 provider.name.toLowerCase() === "credentials" &&
                 "bg-green-500 text-white hover:bg-green-600"
