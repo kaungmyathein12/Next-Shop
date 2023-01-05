@@ -8,7 +8,7 @@ const NavBar = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <nav className="fixed w-full bg-white flex flex-row justify-between items-center border-b px-6 py-[10px] space-x-4 flex-shrink-0">
+    <nav className="fixed w-full bg-white flex flex-row justify-between items-center border-b px-8 py-[10px] space-x-4 flex-shrink-0">
       <h3 className="text-xl font-semibold">NEXT Shop</h3>
       <div className="grow"></div>
       <div
