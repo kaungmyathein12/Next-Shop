@@ -1,47 +1,23 @@
-import { getSession, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import { useState } from "react";
-import Ripples from "react-ripples";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
-  const { data: session } = useSession();
-  const [showMenu, setShowMenu] = useState<boolean>(false);
   return (
-    <div>
-      <div className="w-[900px] mx-auto mt-16">
-        <nav className="px-4 flex flex-row justify-between items-start">
-          <h3 className="text-xl font-semibold">NEXT Shop</h3>
-          <div
-            className="w-[30px] h-[30px] relative cursor-pointer"
-            onBlur={() =>
-              setTimeout(() => {
-                setShowMenu(false);
-              }, 300)
-            }
-            tabIndex={0}
-          >
-            <Image
-              src={session?.user?.image as string}
-              alt={session?.user?.name as string}
-              width={30}
-              height={30}
-              onClick={() => setShowMenu(!showMenu)}
-              className="rounded-md"
-            />
-            {showMenu && (
-              <div className="absolute top-[120%] w-[77.5px] right-0 border">
-                <Ripples>
-                  <button
-                    className="text-sm bg-[#ededed] px-3 py-1 rounded-md"
-                    onClick={() => signOut()}
-                  >
-                    Log Out
-                  </button>
-                </Ripples>
-              </div>
-            )}
-          </div>
-        </nav>
+    <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0">
+      <div className="border-r w-[78%] flex-shrink-0 h-screen">
+        
+      </div>
+      <div className="grow flex-shrink-0 px-4">
+        <div className="flex flex-row justify-between items-center mt-[80px] ">
+          <h4 className="text-lg font-medium">Order Details</h4>
+          <i className="ri-more-2-fill"></i>
+        </div>
+        <div className="border-t flex flex-row justify-between items-center mt-4 pt-4">
+          <h5 className=" font-medium">Total</h5>
+          <span className=" font-bold">0 MMK</span>
+        </div>
+        <button className="mt-4 bg-green-500 w-full text-center text-white text-[14px] rounded py-2">
+          Pay 0 MMK
+        </button>
       </div>
     </div>
   );
