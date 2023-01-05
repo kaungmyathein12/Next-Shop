@@ -1,21 +1,27 @@
 import NextAuth from "next-auth/next";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { RequestInternal, Awaitable, User } from "next-auth";
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
+        username: {
+          label: "Username",
+          type: "text",
+          placeholder: "Enter your name",
+        },
+        password: { label: "Password", type: "Enter your password" },
       },
-      authorize: function (
-        credentials: Record<"username" | "password", string> | undefined,
-        req: Pick<RequestInternal, "body" | "query" | "headers" | "method">
-      ): Awaitable<User | null> {
-        throw new Error("Function not implemented.");
+      async authorize(credentials, req) {
+        // Add logic here to look up the user from the credentials supplied
+        const { email, password }: any = credentials;
+        if (email !== "john@gmail.com" && password !== "123456") {
+          return null;
+        } else {
+          return { id: 1234, name: "JohnDoe", email: "john@gmail.com" } as any;
+        }
       },
     }),
     GitHubProvider({
