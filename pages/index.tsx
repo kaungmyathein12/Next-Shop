@@ -1,9 +1,9 @@
 import React from "react";
+import prisma from "../lib/prisma";
 import { getSession } from "next-auth/react";
 import riceroll from "../assets/img/riceroll.png";
 import sushi from "../assets/img/sushi.png";
 import food0 from "../assets/img/food0.jpeg";
-import food1 from "../assets/img/food1.jpeg";
 
 import Image from "next/image";
 
