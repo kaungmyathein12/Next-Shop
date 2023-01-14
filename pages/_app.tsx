@@ -1,4 +1,4 @@
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import "remixicon/fonts/remixicon.css";
@@ -9,7 +9,6 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <NavBar />
       <Component {...pageProps} />
     </SessionProvider>
   );
