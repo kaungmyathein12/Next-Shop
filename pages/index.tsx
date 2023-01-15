@@ -4,63 +4,9 @@ import { getSession } from "next-auth/react";
 import riceroll from "../assets/img/riceroll.png";
 import sushi from "../assets/img/sushi.png";
 import food0 from "../assets/img/food0.jpeg";
-
 import Image from "next/image";
 import NavBar from "../components/NavBar";
-
-const categories = [
-  {
-    name: "Rice Roll",
-    img: riceroll,
-    count: 10,
-  },
-  {
-    name: "Sushi",
-    img: sushi,
-    count: 18,
-  },
-  {
-    name: "Rice Roll",
-    img: riceroll,
-    count: 10,
-  },
-  {
-    name: "Sushi",
-    img: sushi,
-    count: 18,
-  },
-  {
-    name: "Rice Roll",
-    img: riceroll,
-    count: 10,
-  },
-  {
-    name: "Sushi",
-    img: sushi,
-    count: 18,
-  },
-  {
-    name: "Rice Roll",
-    img: riceroll,
-    count: 10,
-  },
-  {
-    name: "Sushi",
-    img: sushi,
-    count: 18,
-  },
-  {
-    name: "Rice Roll",
-    img: riceroll,
-    count: 10,
-  },
-  {
-    name: "Sushi",
-    img: sushi,
-    count: 18,
-  },
-];
-
+import { categories } from "./../mock/dummyData";
 export default function Home() {
   return (
     <>
