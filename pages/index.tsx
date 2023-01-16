@@ -1,16 +1,11 @@
 import React from "react";
-import prisma from "../lib/prisma";
 import { getSession } from "next-auth/react";
-import riceroll from "../assets/img/riceroll.png";
-import sushi from "../assets/img/sushi.png";
 import food0 from "../assets/img/food0.jpeg";
 import Image from "next/image";
-import NavBar from "../components/NavBar";
 import { categories } from "./../mock/dummyData";
 export default function Home() {
   return (
     <>
-      <NavBar />
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins">
         <div className="border-r w-[78%] flex-shrink-0 h-screen pl-8">
           <div className="pt-[80px] sticky top-0  bg-white z-[10]">

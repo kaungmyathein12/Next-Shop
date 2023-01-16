@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Ripples from "react-ripples";
+import Link from "next/link";
 
 const NavBar = () => {
   const { data: session } = useSession();
@@ -11,9 +12,15 @@ const NavBar = () => {
     <nav className="fixed w-full bg-white flex flex-row justify-between items-center border-b px-8 py-[10px] space-x-4 flex-shrink-0 z-[20]">
       <h3 className="text-xl font-semibold">NEXT Shop</h3>
       <div className="grow flex flex-row justify-end items-center space-x-5 uppercase pr-[84px]">
-        <span className="text-[14px] font-medium">Home</span>
-        <span className="text-[14px] font-medium">Employee Account</span>
-        <span className="text-[14px] font-medium">Add New Product</span>
+        <Link href={"/"}>
+          <span className="text-[14px] font-medium">Home</span>
+        </Link>
+        <Link href={"/employee"}>
+          <span className="text-[14px] font-medium">Employee Account</span>
+        </Link>
+        <Link href={"/newproduct"}>
+          <span className="text-[14px] font-medium">Add New Product</span>
+        </Link>
       </div>
       <div
         className="relative cursor-pointer flex flex-row justify-start items-start space-x-2"
@@ -39,10 +46,10 @@ const NavBar = () => {
           <span className="text-[10px]">{session?.user?.email}</span>
         </div>
         {showMenu && (
-          <div className="absolute top-[120%] w-[77.5px] right-0 border">
+          <div className="absolute top-[120%] w-[77.5px] -left-2 border">
             <Ripples>
               <button
-                className="text-sm bg-[#ededed] px-3 py-1 rounded-md"
+                className="text-sm bg-[#fafafa] px-3 py-1 "
                 onClick={() => signOut()}
               >
                 Log Out
