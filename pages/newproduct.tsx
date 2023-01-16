@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import ImagePicker from "../components/ImagePicker";
+import { ErrorAlert, SuccessAlert } from "../components/Alert";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -9,10 +10,13 @@ const options = [
 ];
 
 const Newproduct = () => {
+  const [alert, setAlert] = useState<string>("");
   return (
     <>
       <div className="h-screen w-[500px] mx-auto">
         <div className="pt-[100px]">
+          {alert === "success" && <SuccessAlert />}
+          {alert === "error" && <ErrorAlert />}
           <label className="text-sm">Product Name</label>
           <input
             type="text"
@@ -62,9 +66,12 @@ const Newproduct = () => {
             </div>
           </div>
         </div>
-        <div className="mt-6 bg-black text-white text-[14px] text-center py-3 rounded-md">
+        <button
+          className="mt-6 bg-black text-white text-[14px] text-center py-3 rounded-md block w-full"
+          onClick={() => {}}
+        >
           Add Product
-        </div>
+        </button>
       </div>
     </>
   );
