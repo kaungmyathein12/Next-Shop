@@ -18,8 +18,10 @@ model User {
   createdAt DateTime @default(now())
 }
 
-model Tag {
+model Category {
   id Int @id @default(autoincrement())
+  label String @unique
+  value String
   products Product[]
 }
 
@@ -27,7 +29,7 @@ model Product {
   id String @default(cuid()) @id
   name String
   price Int
-  hasdiscount Boolean
-  tagId Int
-  tag Tag @relation(fields: [tagId],references: [id])
+  discount Int
+  categoryId Int
+  category Category @relation(fields: [categoryId],references: [id])
 }

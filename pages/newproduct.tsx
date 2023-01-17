@@ -2,15 +2,29 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ImagePicker from "../components/ImagePicker";
 import { ErrorAlert, SuccessAlert } from "../components/Alert";
+import { GetServerSideProps } from "next";
+import prisma from "../lib/prisma";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
-const Newproduct = () => {
+const Newproduct = (props: any) => {
   const [alert, setAlert] = useState<string>("");
+  const [data, setData] = useState({
+    name: "",
+    category: 0,
+    price: 0,
+    discount: 0,
+  });
+
+  const onSubmit = async () => {
+    // const product = await prisma.product.create({
+    //   data: {
+    //     id: "030e",
+    //     name: "hello",
+    //     price: 0,
+    //     discount: 0,
+    //     categoryId: 1,
+    //   },
+    // });
+  };
   return (
     <>
       <div className="h-screen w-[500px] mx-auto">
@@ -20,20 +34,23 @@ const Newproduct = () => {
           <label className="text-sm">Product Name</label>
           <input
             type="text"
+            value={data.name}
             className="w-full border py-2 px-3 outline-none mt-2 rounded-md"
+            onChange={(e: any) => setData({ ...data, name: e.target.value })}
           />
         </div>
-        <div className=" mt-6">
-          <div>
-            <label className="text-sm"> Categories</label>
-            <Select
-              options={options}
-              isMulti
-              className="mt-2 outline-none"
-              classNamePrefix="select"
-            />
+        {props.category && props.category.length > 0 && (
+          <div className=" mt-6">
+            <div>
+              <label className="text-sm">Categories</label>
+              <Select
+                options={props.category}
+                className="mt-2 outline-none"
+                classNamePrefix="select"
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div className="mt-6">
           <label className="text-sm">Preview Image</label>
           <ImagePicker />
@@ -43,9 +60,15 @@ const Newproduct = () => {
             <label className="text-sm">Price</label>
             <div className="flex flex-row justify-start items-stretch border mt-2 rounded-md overflow-hidden">
               <input
-                type="number"
-                defaultValue={0}
+                type="text"
                 className="w-full py-2 px-3 outline-none grow"
+                value={data.price}
+                onInput={(e: any) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }}
+                onChange={(e: any) =>
+                  setData({ ...data, price: e.target.value })
+                }
               />
               <div className="text-[12px] bg-black text-white px-2 grid place-items-center font-bold tracking-wider">
                 MMK
@@ -56,9 +79,16 @@ const Newproduct = () => {
             <label className="text-sm">Discount Price</label>
             <div className="flex flex-row justify-start items-stretch border mt-2 rounded-md overflow-hidden">
               <input
-                type="number"
+                type="text"
                 defaultValue={0}
                 className="w-full py-2 px-3 outline-none grow"
+                value={data.discount}
+                onInput={(e: any) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }}
+                onChange={(e: any) =>
+                  setData({ ...data, discount: e.target.value })
+                }
               />
               <div className="text-[12px] bg-black text-white px-4 grid place-items-center font-bold tracking-wider">
                 %
@@ -78,3 +108,12 @@ const Newproduct = () => {
 };
 
 export default Newproduct;
+
+export const getServerSideProps: GetServerSideProps = async (params: any) => {
+  const category = await prisma.category.findMany();
+  return {
+    props: {
+      category,
+    },
+  };
+};

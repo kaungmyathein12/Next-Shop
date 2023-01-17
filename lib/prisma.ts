@@ -1,7 +1,11 @@
 // lib/prisma.ts
 import { PrismaClient } from "@prisma/client";
 
-let prisma: PrismaClient;
-prisma = new PrismaClient();
+const prisma: PrismaClient = new PrismaClient();
+prisma.product.findMany({
+  include: {
+    category: true,
+  },
+});
 
 export default prisma;
