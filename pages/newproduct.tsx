@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import prisma from "../lib/prisma";
 import ImagePicker from "../components/ImagePicker";
 import { ErrorAlert, SuccessAlert } from "../components/Alert";
 import { GetServerSideProps } from "next";
-import prisma from "../lib/prisma";
+import { jsonHeader } from "../utils/header";
 
 const Newproduct = (props: any) => {
   const [alert, setAlert] = useState<string>("");
@@ -14,17 +15,22 @@ const Newproduct = (props: any) => {
     discount: 0,
   });
 
-  const onSubmit = async () => {
-    // const product = await prisma.product.create({
-    //   data: {
-    //     id: "030e",
-    //     name: "hello",
-    //     price: 0,
-    //     discount: 0,
-    //     categoryId: 1,
-    //   },
-    // });
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    setAlert("");
+    try {
+      const res = await fetch("/api/product", jsonHeader);
+      const data = await res.json();
+
+      if (data.status) {
+        setAlert("success");
+      }
+      console.log("data", data);
+    } catch (error) {
+      setAlert("error");
+    }
   };
+
   return (
     <>
       <div className="h-screen w-[500px] mx-auto">
@@ -98,7 +104,9 @@ const Newproduct = (props: any) => {
         </div>
         <button
           className="mt-6 bg-black text-white text-[14px] text-center py-3 rounded-md block w-full"
-          onClick={() => {}}
+          onClick={(e: any) => {
+            onSubmit(e);
+          }}
         >
           Add Product
         </button>

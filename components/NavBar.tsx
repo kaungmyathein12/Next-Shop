@@ -32,8 +32,8 @@ const NavBar = () => {
         tabIndex={0}
       >
         <Image
-          src={session?.user?.image as string}
-          alt={session?.user?.name as string}
+          src={(session?.user?.image as string) || ""}
+          alt={"user profile"}
           width={30}
           height={30}
           onClick={() => setShowMenu(!showMenu)}
