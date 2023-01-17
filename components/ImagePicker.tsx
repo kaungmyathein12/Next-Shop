@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-const ImagePicker = () => {
+const ImagePicker = ({ onHandleImage }: any) => {
   const [previewImage, setPreviewImage] = useState<string>("");
   const [fileSize, setFileSize] = useState("0 KB");
 
@@ -18,7 +18,7 @@ const ImagePicker = () => {
       const blob = URL.createObjectURL(image);
       if (image.type.includes("image")) {
         setPreviewImage(blob);
-        console.log(image);
+        onHandleImage(image);
         const fileSize = formatFileSize(image.size);
         setFileSize(fileSize);
       }

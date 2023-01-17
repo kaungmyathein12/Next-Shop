@@ -1,31 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import prisma from "../lib/prisma";
 import ImagePicker from "../components/ImagePicker";
 import { ErrorAlert, SuccessAlert } from "../components/Alert";
 import { GetServerSideProps } from "next";
 import { jsonHeader } from "../utils/header";
+import axios from "axios";
 
 const Newproduct = (props: any) => {
   const [alert, setAlert] = useState<string>("");
   const [data, setData] = useState({
     name: "",
     categoryId: 0,
+    image: null,
     price: 0,
     discount: 0,
   });
+
+  const onHandleImage = (file: any) => {
+    setData({ ...data, image: file });
+  };
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
     setAlert("");
     try {
-      const reswithFetch = await fetch("/api/product", jsonHeader(data));
-      const res = await reswithFetch.json();
-
-      if (res.status) {
+      const reswithFetch = await axios({
+        url: "/api/product",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        data: data,
+      });
+      if (reswithFetch.status) {
         setAlert("success");
+      } else {
+        setAlert("error");
       }
-      console.log("data", res);
     } catch (error) {
       setAlert("error");
     }
@@ -62,7 +72,7 @@ const Newproduct = (props: any) => {
         )}
         <div className="mt-6">
           <label className="text-sm">Preview Image</label>
-          <ImagePicker />
+          <ImagePicker onHandleImage={onHandleImage} />
         </div>
         <div className="grid grid-cols-2 gap-x-4 mt-6">
           <div>

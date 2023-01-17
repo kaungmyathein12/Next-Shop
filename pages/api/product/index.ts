@@ -1,19 +1,23 @@
-import { getSession } from "next-auth/react";
-import { json } from "stream/consumers";
-import prisma from "../../../lib/prisma";
+// export const cloudinary = require("cloudinary").v2;
+
+// cloudinary.config({
+//   cloud_name: process.env.CLOUD_NAME,
+//   api_key: process.env.API_KEY,
+//   api_secret: process.env.API_SECRET,
+// });
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
+
 export default async function handler(req: any, res: any) {
   if (req.method === "POST") {
-    const data = req.body;
-    const session = await getSession({ req });
-    if (session) {
-      const result = await prisma.product.create({
-        data: {
-          ...data,
-        },
-      });
-      res.json(result);
+    try {
+      console.log("response body", req.body);
+      console.log("response file", req.file);
+    } catch (error) {
+      console.log("error", error);
     }
-  } else {
-    // Handle any other HTTP method
   }
 }
