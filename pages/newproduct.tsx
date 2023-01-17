@@ -10,7 +10,7 @@ const Newproduct = (props: any) => {
   const [alert, setAlert] = useState<string>("");
   const [data, setData] = useState({
     name: "",
-    category: 0,
+    categoryId: 0,
     price: 0,
     discount: 0,
   });
@@ -19,13 +19,13 @@ const Newproduct = (props: any) => {
     e.preventDefault();
     setAlert("");
     try {
-      const res = await fetch("/api/product", jsonHeader);
-      const data = await res.json();
+      const reswithFetch = await fetch("/api/product", jsonHeader(data));
+      const res = await reswithFetch.json();
 
-      if (data.status) {
+      if (res.status) {
         setAlert("success");
       }
-      console.log("data", data);
+      console.log("data", res);
     } catch (error) {
       setAlert("error");
     }
@@ -53,6 +53,9 @@ const Newproduct = (props: any) => {
                 options={props.category}
                 className="mt-2 outline-none"
                 classNamePrefix="select"
+                onChange={(choice: any) =>
+                  setData({ ...data, categoryId: choice.id * 1 })
+                }
               />
             </div>
           </div>
@@ -73,7 +76,7 @@ const Newproduct = (props: any) => {
                   e.target.value = e.target.value.replace(/[^0-9]/g, "");
                 }}
                 onChange={(e: any) =>
-                  setData({ ...data, price: e.target.value })
+                  setData({ ...data, price: e.target.value * 1 })
                 }
               />
               <div className="text-[12px] bg-black text-white px-2 grid place-items-center font-bold tracking-wider">
@@ -93,7 +96,7 @@ const Newproduct = (props: any) => {
                   e.target.value = e.target.value.replace(/[^0-9]/g, "");
                 }}
                 onChange={(e: any) =>
-                  setData({ ...data, discount: e.target.value })
+                  setData({ ...data, discount: e.target.value * 1 })
                 }
               />
               <div className="text-[12px] bg-black text-white px-4 grid place-items-center font-bold tracking-wider">
