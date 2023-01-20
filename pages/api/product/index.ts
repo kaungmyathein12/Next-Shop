@@ -1,5 +1,7 @@
 // export const cloudinary = require("cloudinary").v2;
 
+import prisma from "../../../lib/prisma";
+
 // cloudinary.config({
 //   cloud_name: process.env.CLOUD_NAME,
 //   api_key: process.env.API_KEY,
@@ -14,10 +16,10 @@ export const config = {
 export default async function handler(req: any, res: any) {
   if (req.method === "POST") {
     try {
-      console.log("response body", req.body);
-      console.log("response file", req.file);
-    } catch (error) {
-      console.log("error", error);
-    }
+      const data = req.body;
+      console.log(data);
+      if (data !== undefined) {
+      }
+    } catch (error) {}
   }
 }
