@@ -75,6 +75,8 @@ export default function Home() {
     </>
   );
 }
+
+// fetching on server
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
   if (!session) {

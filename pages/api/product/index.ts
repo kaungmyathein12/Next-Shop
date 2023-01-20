@@ -19,6 +19,9 @@ export default async function handler(req: any, res: any) {
       const data = req.body;
       console.log(data);
       if (data !== undefined) {
+        // const product = await prisma.product.create()
+        // FIXME:
+        // prisma error : cannot connected with prisma database (psql not found error => repair in brew )
       }
     } catch (error) {}
   }
