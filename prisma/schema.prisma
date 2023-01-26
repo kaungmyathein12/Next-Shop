@@ -23,6 +23,7 @@ model Category {
   label String @unique
   value String
   products Product[]
+  
 }
 
 model Product {

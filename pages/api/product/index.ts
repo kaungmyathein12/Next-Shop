@@ -15,7 +15,7 @@ const apiRoute = nextConnect();
 apiRoute.post(upload.single("image"), async (req: any, res: any) => {
   try {
     const dataforPost = { ...JSON.parse(JSON.stringify(req.body)) };
-    dataforPost.image = `public/uploads/${req.file.filename}`;
+    dataforPost.image = `/uploads/${req.file.filename}`;
     const product = await prisma.product.create({
       data: {
         name: dataforPost.name,
