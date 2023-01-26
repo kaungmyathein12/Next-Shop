@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
-import prisma from "../lib/prisma";
-import ImagePicker from "../components/ImagePicker";
-import { ErrorAlert, SuccessAlert } from "../components/Alert";
+import prisma from "../../lib/prisma";
+import ImagePicker from "../../components/ImagePicker";
+import { ErrorAlert, SuccessAlert } from "../../components/Alert";
 import { GetServerSideProps } from "next";
-import { jsonHeader } from "../utils/header";
 import axios from "axios";
 
 const Newproduct = (props: any) => {

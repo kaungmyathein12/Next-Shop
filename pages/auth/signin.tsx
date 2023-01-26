@@ -68,6 +68,7 @@ export default function SignIn({ providers }: any) {
     </div>
   );
 }
+
 SignIn.getLayout = function PageLayout(page: any) {
   return <>{page}</>;
 };
@@ -78,7 +79,7 @@ export async function getServerSideProps(context: any) {
   if (session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/admin/",
         permanent: false,
       },
     };

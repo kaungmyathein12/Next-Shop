@@ -4,6 +4,15 @@ const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com", "glebekitchen.com/"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/admin",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

@@ -12,13 +12,13 @@ const NavBar = () => {
     <nav className="fixed w-full bg-white flex flex-row justify-between items-center border-b px-8 py-[10px] space-x-4 flex-shrink-0 z-[20]">
       <h3 className="text-xl font-semibold">NEXT Shop</h3>
       <div className="grow flex flex-row justify-end items-center space-x-5 uppercase pr-[84px]">
-        <Link href={"/"}>
+        <Link href={"/admin"}>
           <span className="text-[14px] font-medium">Home</span>
         </Link>
-        <Link href={"/employee"}>
+        <Link href={"/admin/employee"}>
           <span className="text-[14px] font-medium">Employee Account</span>
         </Link>
-        <Link href={"/newproduct"}>
+        <Link href={"/admin/newproduct"}>
           <span className="text-[14px] font-medium">Add New Product</span>
         </Link>
       </div>

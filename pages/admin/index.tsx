@@ -1,9 +1,10 @@
 import React from "react";
-import { getSession } from "next-auth/react";
-import food0 from "../assets/img/food0.jpeg";
+import food0 from "../../assets/img/food0.jpeg";
 import Image from "next/image";
-import { categories } from "./../mock/dummyData";
-export default function Home() {
+import { categories } from "../../mock/dummyData";
+import prisma from "../../lib/prisma";
+import { GetServerSideProps } from "next";
+export default function Home(props: any) {
   return (
     <>
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins">
@@ -76,18 +77,11 @@ export default function Home() {
   );
 }
 
-// fetching on server
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth/signin",
-        permanent: false,
-      },
-    };
-  }
+export const getServerSideProps: GetServerSideProps = async (params: any) => {
+  const category = await prisma.category.findMany();
   return {
-    props: {},
+    props: {
+      category,
+    },
   };
-}
+};
