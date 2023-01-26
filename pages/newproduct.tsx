@@ -23,13 +23,21 @@ const Newproduct = (props: any) => {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", data.name as any);
+    formData.append("categoryId", data.categoryId as any);
+    formData.append("price", data.price as any);
+    formData.append("image", data.image as any);
+    formData.append("discount", data.discount as any);
+
     setAlert("");
     try {
       const reswithFetch = await axios({
         url: "/api/product",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: data,
+        headers: { "content-type": "multipart/form-data" },
+        data: formData,
       });
       if (reswithFetch.status) {
         setAlert("success");

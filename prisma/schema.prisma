@@ -29,6 +29,7 @@ model Product {
   id String @default(cuid()) @id
   name String
   price Int
+  image String
   discount Int
   categoryId Int
   category Category @relation(fields: [categoryId],references: [id])

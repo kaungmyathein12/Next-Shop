@@ -1,28 +1,41 @@
-// export const cloudinary = require("cloudinary").v2;
-
+import nextConnect from "next-connect";
+import multer from "multer";
 import prisma from "../../../lib/prisma";
+import { sendStatusCode } from "next/dist/server/api-utils";
 
-// cloudinary.config({
-//   cloud_name: process.env.CLOUD_NAME,
-//   api_key: process.env.API_KEY,
-//   api_secret: process.env.API_SECRET,
-// });
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: "./public/uploads",
+    filename: (req, file, cb) => cb(null, file.originalname),
+  }),
+});
+
+const apiRoute = nextConnect();
+
+apiRoute.post(upload.single("image"), async (req: any, res: any) => {
+  try {
+    const dataforPost = { ...JSON.parse(JSON.stringify(req.body)) };
+    dataforPost.image = `public/uploads/${req.file.filename}`;
+    const product = await prisma.product.create({
+      data: {
+        name: dataforPost.name,
+        price: dataforPost.price * 1,
+        image: dataforPost.image,
+        discount: dataforPost.discount * 1,
+        categoryId: dataforPost.categoryId * 1,
+      },
+    });
+    res.status(200).json({ data: "success" });
+  } catch (error) {
+    console.log(error);
+  }
+  console.log();
+});
+
+export default apiRoute;
+
 export const config = {
   api: {
-    bodyParser: true,
+    bodyParser: false, // Disallow body parsing, consume as stream
   },
 };
-
-export default async function handler(req: any, res: any) {
-  if (req.method === "POST") {
-    try {
-      const data = req.body;
-      console.log(data);
-      if (data !== undefined) {
-        // const product = await prisma.product.create()
-        // FIXME:
-        // prisma error : cannot connected with prisma database (psql not found error => repair in brew )
-      }
-    } catch (error) {}
-  }
-}
