@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import prisma from "../../lib/prisma";
 import { GetServerSideProps } from "next";
@@ -6,6 +6,7 @@ import ProductCard from "../../components/ProductCard";
 import OrderCard from "../../components/OrderCard";
 export default function Home(props: any) {
   const [selectedCart, setSelectedCart] = useState<any>([]);
+  const [totalAmount, setTotalAmount] = useState(0);
   const addToCart = (item: any) => {
     const filtered = selectedCart.filter((t: any) => t.id === item.id);
     if (filtered.length === 0) {
@@ -19,6 +20,20 @@ export default function Home(props: any) {
       setSelectedCart(filtered);
     }
   };
+  const checkTotal = useCallback(() => {
+    if (selectedCart.length > 0) {
+      const initialValue = 0;
+      const sumWithInitial = selectedCart.reduce(
+        (accumulator: any, currentValue: any) =>
+          accumulator + currentValue.price,
+        initialValue
+      );
+      setTotalAmount(sumWithInitial);
+    }
+  }, [selectedCart]);
+  useEffect(() => {
+    checkTotal();
+  }, [selectedCart, checkTotal]);
   return (
     <>
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">
@@ -85,13 +100,14 @@ export default function Home(props: any) {
                     key={index}
                     item={item}
                     removeFromCart={removeFromCart}
+                    setTotalAmount={setTotalAmount}
                   />
                 ))}
             </div>
             <div className="my-5">
               <div className="flex flex-row justify-between items-center mb-5">
                 <span className=" font-medium">Total</span>
-                <span>0</span>
+                <span>{totalAmount}</span>
               </div>
               <button className="text-center w-full text-sm bg-black text-white py-3  rounded-xl">
                 Charge Customer
