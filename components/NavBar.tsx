@@ -37,7 +37,7 @@ const NavBar = () => {
           width={30}
           height={30}
           onClick={() => setShowMenu(!showMenu)}
-          className="rounded-md"
+          className="rounded-full"
         />
         <div>
           <h4 className="text-sm font-semibold -mb-[8px] -mt-[2px]">

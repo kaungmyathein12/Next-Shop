@@ -54,19 +54,32 @@ export default function Home(props: any) {
             <h4 className="text-[18px] font-medium">Special menu for you</h4>
             <div className="mt-8 mr-6 grid grid-cols-4 gap-8">
               {props.products.map((item: any, index: any) => (
-                <div key={index} className="hover:scale-105 transition-all">
-                  <div className="w-full h-[150px] relative overflow-hidden border-2">
-                    <Image
-                      src={item.image}
-                      width={350}
-                      height={150}
-                      alt="k"
-                      className=" object-cover object-center"
-                    />
+                <div
+                  key={index}
+                  className="border rounded-lg overflow-hidden relative"
+                >
+                  <div className="text-white bg-black px-3 py-1 rounded-full grid place-items-center absolute right-2 top-2">
+                    <span className="text-xs font-semibold">
+                      {item?.discount} %
+                    </span>
                   </div>
-                  <div className="mt-2">
-                    <h1 className="text-sm mb-1">{item.name}</h1>
-                    <span className="text-lg font-medium">$ {item.price}</span>
+                  <Image
+                    src={item.image}
+                    width={100}
+                    height={100}
+                    alt={item.name}
+                    className="mt-5 mb-2"
+                  />
+                  <div className=" bg-black text-white border-t p-5">
+                    <h4 className="font-semibold tracking-wide mb-1">
+                      {item.name}
+                    </h4>
+                    <div className="flex flex-row justify-between item-center mt-2">
+                      <span className="text-sm">${item.price}</span>
+                      <button className="text-sm bg-white text-black font-semibold px-3 py-1 rounded hover:bg-gray-200 active:bg-gray-400">
+                        Add Item
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
