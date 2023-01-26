@@ -1,13 +1,28 @@
-import React from "react";
-import food0 from "../../assets/img/food0.jpeg";
+import React, { useState } from "react";
 import Image from "next/image";
 import prisma from "../../lib/prisma";
 import { GetServerSideProps } from "next";
+import ProductCard from "../../components/ProductCard";
+import OrderCard from "../../components/OrderCard";
 export default function Home(props: any) {
+  const [selectedCart, setSelectedCart] = useState<any>([]);
+  const addToCart = (item: any) => {
+    const filtered = selectedCart.filter((t: any) => t.id === item.id);
+    if (filtered.length === 0) {
+      setSelectedCart([...selectedCart, item]);
+    }
+  };
+  const removeFromCart = (item: any) => {
+    let filtered = selectedCart.filter((t: any) => t.id === item.id);
+    if (filtered.length > 0) {
+      let filtered = selectedCart.filter((t: any) => t.id !== item.id);
+      setSelectedCart(filtered);
+    }
+  };
   return (
     <>
-      <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins">
-        <div className="border-r w-[78%] flex-shrink-0 h-screen pl-8">
+      <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">
+        <div className="border-r w-[72%] flex-shrink-0 h-screen pl-8">
           <div className="pt-[80px] sticky top-0  bg-white z-[10]">
             <h4 className="text-[18px] font-medium">Categories</h4>
             <div className="mt-5 pb-[30px]">
@@ -52,41 +67,38 @@ export default function Home(props: any) {
           </div>
           <div className="mt-[20px] pb-[40px]">
             <h4 className="text-[18px] font-medium">Special menu for you</h4>
-            <div className="mt-8 mr-6 grid grid-cols-4 gap-8">
+            <div className="mt-8 mr-6 grid grid-cols-3 gap-5">
               {props.products.map((item: any, index: any) => (
-                <div
-                  key={index}
-                  className="border rounded-lg overflow-hidden relative"
-                >
-                  <div className="text-white bg-black px-3 py-1 rounded-full grid place-items-center absolute right-2 top-2">
-                    <span className="text-xs font-semibold">
-                      {item?.discount} %
-                    </span>
-                  </div>
-                  <Image
-                    src={item.image}
-                    width={100}
-                    height={100}
-                    alt={item.name}
-                    className="mt-5 mb-2"
-                  />
-                  <div className=" bg-black text-white border-t p-5">
-                    <h4 className="font-semibold tracking-wide mb-1">
-                      {item.name}
-                    </h4>
-                    <div className="flex flex-row justify-between item-center mt-2">
-                      <span className="text-sm">${item.price}</span>
-                      <button className="text-sm bg-white text-black font-semibold px-3 py-1 rounded hover:bg-gray-200 active:bg-gray-400">
-                        Add Item
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ProductCard key={index} item={item} addToCart={addToCart} />
               ))}
             </div>
           </div>
         </div>
-        <div className="grow flex-shrink-0 px-4"></div>
+        <div className="grow flex-shrink-0 px-4  bg-white">
+          <div className="pt-[80px] flex flex-col h-screen">
+            <h4 className="text-[18px] font-medium mb-5">Current Order</h4>
+            <div className="flex flex-col grow overflow-scroll space-y-2">
+              {selectedCart &&
+                selectedCart.length > 0 &&
+                selectedCart.map((item: any, index: React.Key) => (
+                  <OrderCard
+                    key={index}
+                    item={item}
+                    removeFromCart={removeFromCart}
+                  />
+                ))}
+            </div>
+            <div className="my-5">
+              <div className="flex flex-row justify-between items-center mb-5">
+                <span className=" font-medium">Total</span>
+                <span>0</span>
+              </div>
+              <button className="text-center w-full text-sm bg-black text-white py-3  rounded-xl">
+                Charge Customer
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
