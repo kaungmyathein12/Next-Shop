@@ -1,7 +1,6 @@
 import nextConnect from "next-connect";
 import multer from "multer";
 import prisma from "../../../lib/prisma";
-import { sendStatusCode } from "next/dist/server/api-utils";
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -11,6 +10,20 @@ const upload = multer({
 });
 
 const apiRoute = nextConnect();
+
+apiRoute.get(async (req: any, res: any) => {
+  try {
+    const product = await prisma.product.findMany({
+      include: {
+        category: true,
+      },
+    });
+    res.status(200).json({
+      status: "success",
+      data: product,
+    });
+  } catch (error) {}
+});
 
 apiRoute.post(upload.single("image"), async (req: any, res: any) => {
   try {

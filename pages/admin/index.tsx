@@ -1,12 +1,18 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import prisma from "../../lib/prisma";
-import { GetServerSideProps } from "next";
 import ProductCard from "../../components/ProductCard";
 import OrderCard from "../../components/OrderCard";
+import APIGet from "../../hooks/APIGet";
+
 export default function Home(props: any) {
+  // State
   const [selectedCart, setSelectedCart] = useState<any>([]);
   const [totalAmount, setTotalAmount] = useState(0);
+
+  // React Query Custom Hook
+  const { categoryQuery, productQuery } = APIGet();
+
+  // Function
   const addToCart = (item: any) => {
     const filtered = selectedCart.filter((t: any) => t.id === item.id);
     if (filtered.length === 0) {
@@ -20,6 +26,7 @@ export default function Home(props: any) {
       setSelectedCart(filtered);
     }
   };
+
   return (
     <>
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">
@@ -35,43 +42,47 @@ export default function Home(props: any) {
                   <div className="text-center h-[20px] text-xs ">
                     <p className="text-[10px] text-white">All</p>
                     <span className="opacity-50 text-white">
-                      {props.category.length} Items
+                      {props.category && props.category.length} Items
                     </span>
                   </div>
                 </div>
-                {props.category.map((item: any, key: React.Key) => (
-                  <div
-                    key={key}
-                    className="w-[100px] h-[100px] border flex-shrink-0 rounded"
-                  >
-                    <div className="w-[100%] h-[60px] relative grid place-items-center">
-                      <Image
-                        src={
-                          item.img ||
-                          "https://cdn.britannica.com/98/235798-050-3C3BA15D/Hamburger-and-french-fries-paper-box.jpg"
-                        }
-                        width={40}
-                        height={50}
-                        alt={item.name}
-                      />
+                {categoryQuery.isSuccess &&
+                  categoryQuery.data.length > 0 &&
+                  categoryQuery.data.map((item: any, key: React.Key) => (
+                    <div
+                      key={key}
+                      className="w-[100px] h-[100px] border flex-shrink-0 rounded"
+                    >
+                      <div className="w-[100%] h-[60px] relative grid place-items-center">
+                        <Image
+                          src={
+                            item.img ||
+                            "https://cdn.britannica.com/98/235798-050-3C3BA15D/Hamburger-and-french-fries-paper-box.jpg"
+                          }
+                          width={40}
+                          height={50}
+                          alt={item.name}
+                        />
+                      </div>
+                      <div className="text-center h-[20px] text-xs ">
+                        <p className="text-[10px]">{item.label}</p>
+                        <span className="opacity-50">
+                          {item.products.length} Items
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-center h-[20px] text-xs ">
-                      <p className="text-[10px]">{item.label}</p>
-                      <span className="opacity-50">
-                        {item.products.length} Items
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
           <div className="mt-[20px] pb-[40px]">
             <h4 className="text-[18px] font-medium">Special menu for you</h4>
             <div className="mt-8 mr-6 grid grid-cols-3 gap-5">
-              {props.products.map((item: any, index: any) => (
-                <ProductCard key={index} item={item} addToCart={addToCart} />
-              ))}
+              {productQuery.isSuccess &&
+                productQuery.data.length > 0 &&
+                productQuery.data.map((item: any, index: any) => (
+                  <ProductCard key={index} item={item} addToCart={addToCart} />
+                ))}
             </div>
           </div>
         </div>
@@ -106,21 +117,21 @@ export default function Home(props: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (params: any) => {
-  const category = await prisma.category.findMany({
-    include: {
-      products: true,
-    },
-  });
-  const products = await prisma.product.findMany({
-    include: {
-      category: true,
-    },
-  });
-  return {
-    props: {
-      category,
-      products,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async (params: any) => {
+//   const category = await prisma.category.findMany({
+//     include: {
+//       products: true,
+//     },
+//   });
+//   const products = await prisma.product.findMany({
+//     include: {
+//       category: true,
+//     },
+//   });
+//   return {
+//     props: {
+//       category,
+//       products,
+//     },
+//   };
+// };
