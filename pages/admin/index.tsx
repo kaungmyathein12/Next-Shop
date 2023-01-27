@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import prisma from "../../lib/prisma";
 import { GetServerSideProps } from "next";
@@ -20,20 +20,6 @@ export default function Home(props: any) {
       setSelectedCart(filtered);
     }
   };
-  const checkTotal = useCallback(() => {
-    if (selectedCart.length > 0) {
-      const initialValue = 0;
-      const sumWithInitial = selectedCart.reduce(
-        (accumulator: any, currentValue: any) =>
-          accumulator + currentValue.price,
-        initialValue
-      );
-      setTotalAmount(sumWithInitial);
-    }
-  }, [selectedCart]);
-  useEffect(() => {
-    checkTotal();
-  }, [selectedCart, checkTotal]);
   return (
     <>
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">

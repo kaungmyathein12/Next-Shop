@@ -4,18 +4,19 @@ import React, { useEffect, useState } from "react";
 const OrderCard = (props: any) => {
   const [currentAmount, setCurrentAmount] = useState(props.item.price);
   const [count, setCount] = useState(1);
+
   const addItem = () => {
     setCurrentAmount((prev: any) => prev + props.item.price);
     setCount((prev: any) => prev + 1);
-    props.setTotalAmount((prev: any) => prev + props.item.price);
   };
+
   const removeItem = () => {
     if (currentAmount > props.item.price) {
       setCurrentAmount((prev: any) => prev - props.item.price);
       setCount((prev: any) => prev - 1);
-      props.setTotalAmount((prev: any) => prev - props.item.price);
     }
   };
+
   return (
     <div className="border p-3 rounded-xl bg-white flex flex-row justify-start items-start space-x-3">
       <Image
