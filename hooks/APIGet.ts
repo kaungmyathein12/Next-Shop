@@ -12,6 +12,7 @@ const APIGet = () => {
     const product = await axios.get("/api/product");
     return product.data.data;
   });
+  // Get
   return { categoryQuery, productQuery };
 };
 

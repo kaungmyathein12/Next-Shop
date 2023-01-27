@@ -86,6 +86,7 @@ export default function Home(props: any) {
             </div>
           </div>
         </div>
+
         <div className="grow flex-shrink-0 px-4  bg-white">
           <div className="pt-[80px] flex flex-col h-screen">
             <h4 className="text-[18px] font-medium mb-5">Current Order</h4>
