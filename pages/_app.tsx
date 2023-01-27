@@ -1,9 +1,11 @@
 import { SessionProvider } from "next-auth/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 import NavBar from "../components/NavBar";
 import "../styles/globals.css";
 import "remixicon/fonts/remixicon.css";
 import "react-toastify/dist/ReactToastify.css";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function App({
   Component,
@@ -18,6 +20,7 @@ export default function App({
       <QueryClientProvider client={queryClient}>
         <NavBar />
         <Component {...pageProps} />
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </SessionProvider>
   );

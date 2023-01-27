@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const OrderCard = (props: any) => {
   const [currentAmount, setCurrentAmount] = useState(props.item.price);

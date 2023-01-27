@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import ProductCard from "../../components/ProductCard";
 import OrderCard from "../../components/OrderCard";
@@ -6,7 +6,10 @@ import APIGet from "../../hooks/APIGet";
 
 export default function Home(props: any) {
   // State
-  const [selectedCart, setSelectedCart] = useState<any>([]);
+  const [selectedCart, setSelectedCart] = useState<any>({
+    count: 0,
+    cart: [],
+  });
   const [totalAmount, setTotalAmount] = useState(0);
 
   // React Query Custom Hook
@@ -14,19 +17,39 @@ export default function Home(props: any) {
 
   // Function
   const addToCart = (item: any) => {
-    const filtered = selectedCart.filter((t: any) => t.id === item.id);
+    const filtered = selectedCart.cart.filter((t: any) => t.id === item.id);
     if (filtered.length === 0) {
-      setSelectedCart([...selectedCart, item]);
+      setSelectedCart({
+        count: selectedCart.count + item.price,
+        cart: [...selectedCart.cart, item],
+      });
     }
   };
   const removeFromCart = (item: any) => {
-    let filtered = selectedCart.filter((t: any) => t.id === item.id);
+    let filtered = selectedCart.cart.filter((t: any) => t.id === item.id);
     if (filtered.length > 0) {
-      let filtered = selectedCart.filter((t: any) => t.id !== item.id);
-      setSelectedCart(filtered);
+      filtered = selectedCart.cart.filter((t: any) => t.id !== item.id);
+      setSelectedCart({
+        count: selectedCart.count - item.price,
+        cart: filtered,
+      });
     }
   };
 
+  // const checkTotal = useCallback(() => {
+  //   if (selectedCart.length > 0) {
+  //     const total = selectedCart.reduce(
+  //       (accumulator: any, currentValue: any) => {
+  //         return accumulator + currentValue.price;
+  //       },
+  //       0
+  //     );
+  //     setTotalAmount(total);
+  //   }
+  // }, [selectedCart]);
+  // useEffect(() => {
+  //   checkTotal();
+  // }, [selectedCart, checkTotal]);
   return (
     <>
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">
@@ -92,13 +115,14 @@ export default function Home(props: any) {
             <h4 className="text-[18px] font-medium mb-5">Current Order</h4>
             <div className="flex flex-col grow overflow-scroll space-y-2">
               {selectedCart &&
-                selectedCart.length > 0 &&
-                selectedCart.map((item: any, index: React.Key) => (
+                selectedCart.cart.length > 0 &&
+                selectedCart.cart.map((item: any, index: React.Key) => (
                   <OrderCard
                     key={index}
                     item={item}
                     removeFromCart={removeFromCart}
-                    setTotalAmount={setTotalAmount}
+                    selectedCart={selectedCart}
+                    setSelectedCart={setSelectedCart}
                   />
                 ))}
             </div>
