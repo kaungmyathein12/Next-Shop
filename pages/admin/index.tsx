@@ -46,9 +46,9 @@ export default function Home(props: any) {
   };
   return (
     <>
-      <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">
+      <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-neutral-100">
         <div className="border-r w-[72%] flex-shrink-0 h-screen pl-8">
-          <div className="pt-[80px] sticky top-0  bg-white z-[10]">
+          <div className="pt-[80px] sticky top-0  z-[10]">
             <h4 className="text-[18px] font-medium">Categories</h4>
             <div className="mt-5 pb-[30px]">
               <div className="flex flex-row justify-start items-center space-x-4 w-[100%] overflow-auto scrollbar-hide pr-6">
@@ -68,7 +68,7 @@ export default function Home(props: any) {
                   categoryQuery.data.map((item: any, key: React.Key) => (
                     <div
                       key={key}
-                      className="w-[100px] h-[100px] border flex-shrink-0 rounded"
+                      className="w-[100px] h-[100px] border flex-shrink-0 rounded bg-white"
                     >
                       <div className="w-[100%] h-[60px] relative grid place-items-center">
                         <Image
@@ -93,8 +93,8 @@ export default function Home(props: any) {
             </div>
           </div>
           <div className="mt-[20px] pb-[40px]">
-            <h4 className="text-[18px] font-medium">Special menu for you</h4>
-            <div className="mt-8 mr-6 grid grid-cols-3 gap-5">
+            <h4 className="text-[18px] font-medium">Menu Category</h4>
+            <div className="mt-8 mr-6 grid grid-cols-4 gap-5">
               {productQuery.isSuccess &&
                 productQuery.data.length > 0 &&
                 productQuery.data.map((item: any, index: any) => {
