@@ -8,6 +8,15 @@ const OrderCard = (props: any) => {
   const addItem = () => {
     setCurrentAmount((prev: any) => prev + props.item.price);
     setCount((prev: any) => prev + 1);
+    let item = {
+      ...props.item,
+      totalAmount: currentAmount + props.item.price,
+    };
+    const getIndexOf = props.selectedCart.cart.findIndex(
+      (i: any) => i.id === item.id
+    );
+    props.selectedCart.cart[getIndexOf] = item;
+    props.setSelectedCart(props.selectedCart);
   };
 
   const removeItem = () => {

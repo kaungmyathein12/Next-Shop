@@ -35,21 +35,15 @@ export default function Home(props: any) {
       });
     }
   };
-
-  // const checkTotal = useCallback(() => {
-  //   if (selectedCart.length > 0) {
-  //     const total = selectedCart.reduce(
-  //       (accumulator: any, currentValue: any) => {
-  //         return accumulator + currentValue.price;
-  //       },
-  //       0
-  //     );
-  //     setTotalAmount(total);
-  //   }
-  // }, [selectedCart]);
-  // useEffect(() => {
-  //   checkTotal();
-  // }, [selectedCart, checkTotal]);
+  const checkTotal = () => {
+    if (selectedCart.cart.length > 0) {
+      const initalValue = 0;
+      const total = selectedCart.cart.reduce((a: any, b: any) => {
+        return a + b.totalAmount;
+      }, initalValue);
+      setTotalAmount(total);
+    }
+  };
   return (
     <>
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-white">
@@ -103,9 +97,19 @@ export default function Home(props: any) {
             <div className="mt-8 mr-6 grid grid-cols-3 gap-5">
               {productQuery.isSuccess &&
                 productQuery.data.length > 0 &&
-                productQuery.data.map((item: any, index: any) => (
-                  <ProductCard key={index} item={item} addToCart={addToCart} />
-                ))}
+                productQuery.data.map((item: any, index: any) => {
+                  const isSelected = selectedCart.cart.find(
+                    (val: any) => val.id === item.id
+                  );
+                  return (
+                    <ProductCard
+                      key={index}
+                      item={item}
+                      selected={isSelected ? true : false}
+                      addToCart={addToCart}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>
@@ -127,12 +131,11 @@ export default function Home(props: any) {
                 ))}
             </div>
             <div className="my-5">
-              <div className="flex flex-row justify-between items-center mb-5">
-                <span className=" font-medium">Total</span>
-                <span>{totalAmount}</span>
-              </div>
-              <button className="text-center w-full text-sm bg-black text-white py-3  rounded-xl">
-                Charge Customer
+              <button
+                className="text-center w-full text-sm bg-black text-white py-3  rounded-xl"
+                onClick={checkTotal}
+              >
+                Calculate Total Amount
               </button>
             </div>
           </div>
@@ -141,22 +144,3 @@ export default function Home(props: any) {
     </>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async (params: any) => {
-//   const category = await prisma.category.findMany({
-//     include: {
-//       products: true,
-//     },
-//   });
-//   const products = await prisma.product.findMany({
-//     include: {
-//       category: true,
-//     },
-//   });
-//   return {
-//     props: {
-//       category,
-//       products,
-//     },
-//   };
-// };
