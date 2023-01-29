@@ -2,65 +2,37 @@ import Image from "next/image";
 import React from "react";
 
 const ProductCard = (props: any) => {
+  console.log(props.item);
   return (
-    // <div
-    //   className={`px-5 py-3 rounded-2xl border ${
-    //     props.selected && "bg-black text-white"
-    //   } hover:bg-black hover:text-white group transition-all`}
-    //   onClick={() => props.addToCart(props.item)}
-    // >
-    //   <h1 className="text-lg font-semibold -mb-1">{props.item.name}</h1>
-    //   <span className="text-xs font-semibold opacity-40">Category</span>
-    //   <div className="flex flex-row justify-between items-end">
-    //     <div>
-    //       <h5
-    //         className={`font-semibold tracking-wide group-hover:text-white ${
-    //           props.selected ? "text-white" : "text-black "
-    //         }`}
-    //       >
-    //         $ {props.item.price}
-    //       </h5>
-    //     </div>
-
-    //     <Image
-    //       src={props.item.image}
-    //       width={60}
-    //       height={60}
-    //       alt={props.item.name}
-    //       className="border rounded overflow-hidden"
-    //     />
-    //   </div>
-    // </div>
     <div
-      className={`border overflow-hidden bg-white relative ${
-        props.selected && "opacity-20"
+      className={`bg-white px-5 py-4 flex flex-row rounded-xl overflow-hidden cursor-pointer ${
+        props.selected && "opacity-50"
       }`}
+      onClick={() => props.addToCart(props.item)}
     >
-      {props.item.discount ? (
-        <div className="absolute text-[10px] bg-black text-white right-0 top-[4px] px-2 py-1 z-30 font-medium tracking-wide rounded-l">
-          {props.item.discount}% Discount
+      <div className="grow flex flex-col justify-between">
+        <div>
+          <h1 className="font-semibold tracking-wide">{props.item.name}</h1>
+          <span className="text-xs opacity-40">
+            {props.item.category.label}
+          </span>
         </div>
-      ) : null}
-      <div className="w-full relative overflow-hidden py-5 bg-neutral-10  bg-[#f0f0f0]">
-        <Image
-          src={props.item.image}
-          alt={props.item.image}
-          width={80}
-          height={80}
-          className="mx-auto"
-        />
+        <div className="flex flex-row justify-start items-center space-x-4">
+          <h1 className="font-semibold text-green-500">$ {props.item.price}</h1>
+          {props.item.discount ? (
+            <div className="text-[10px] bg-green-500 text-white px-2 py-1 rounded-full font-medium tracking-wide">
+              {props.item.discount} % discount
+            </div>
+          ) : null}
+        </div>
       </div>
-      <div className="p-5">
-        <h1 className="font-semibold text-black">{props.item.name}</h1>
-        <span className="text-xs">$ {props.item.price}</span>
-        <button
-          disabled={props.selected}
-          className="bg-black hover:bg-neutral-900 text-white font-semibold w-full mt-4 text-sm py-2 rounded"
-          onClick={() => props.addToCart(props.item)}
-        >
-          Add to Cart
-        </button>
-      </div>
+      <Image
+        width={80}
+        height={70}
+        src={props.item.image}
+        alt=""
+        className="border rounded-xl flex-shrink-0"
+      />
     </div>
   );
 };
