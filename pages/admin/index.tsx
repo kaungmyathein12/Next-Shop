@@ -39,7 +39,11 @@ export default function Home(props: any) {
     if (selectedCart.cart.length > 0) {
       const initalValue = 0;
       const total = selectedCart.cart.reduce((a: any, b: any) => {
-        return a + b.totalAmount;
+        if (b.totalAmount) {
+          return a + b.totalAmount;
+        } else {
+          return a + b.price;
+        }
       }, initalValue);
       setTotalAmount(total);
     }
@@ -108,8 +112,9 @@ export default function Home(props: any) {
                 ))}
             </div>
             <div className="my-5">
+              <div>{totalAmount}</div>
               <button
-                className="text-center w-full text-sm bg-black text-white py-3  rounded-xl"
+                className="text-center w-full text-sm bg-green-500 hover:bg-green-600 text-white py-3  rounded-xl"
                 onClick={checkTotal}
               >
                 Calculate Total Amount

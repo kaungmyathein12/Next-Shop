@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 
 const ProductCard = (props: any) => {
-  console.log(props.item);
   return (
     <div
       className={`bg-white px-5 py-4 flex flex-row rounded-xl overflow-hidden cursor-pointer ${
