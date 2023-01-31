@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard";
 import OrderCard from "../../components/OrderCard";
 import APIGet from "../../hooks/APIGet";
+import ChargeCustomer from "../../components/ChargeCustomer";
 
 export default function Home(props: any) {
   // State
@@ -10,6 +10,7 @@ export default function Home(props: any) {
     count: 0,
     cart: [],
   });
+  const [openVoucher, setOpenVoucher] = useState<boolean>(false);
   const [totalAmount, setTotalAmount] = useState(0);
 
   // React Query Custom Hook
@@ -45,11 +46,30 @@ export default function Home(props: any) {
           return a + b.price;
         }
       }, initalValue);
+
       setTotalAmount(total);
+      setOpenVoucher(true);
     }
   };
+  useEffect(() => {
+    if (!openVoucher) {
+      setSelectedCart({
+        count: 0,
+        cart: [],
+      });
+      setTotalAmount(0);
+    }
+  }, [openVoucher]);
   return (
-    <>
+    <div className="relative">
+      {openVoucher && (
+        <ChargeCustomer
+          totalAmount={totalAmount}
+          onClose={setOpenVoucher}
+          selectedCart={selectedCart}
+        />
+      )}
+
       <div className="mx-auto flex flex-row justify-start items-start flex-shrink-0 font-poppins bg-[#EFF3F6]">
         <div className="border-r w-[72%] flex-shrink-0 h-screen pl-8">
           <div className="pt-[80px] sticky top-0  z-[10]">
@@ -112,7 +132,6 @@ export default function Home(props: any) {
                 ))}
             </div>
             <div className="my-5">
-              <div>{totalAmount}</div>
               <button
                 className="text-center w-full text-sm bg-green-500 hover:bg-green-600 text-white py-3  rounded-xl"
                 onClick={checkTotal}
@@ -123,6 +142,6 @@ export default function Home(props: any) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
